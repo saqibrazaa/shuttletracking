@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#101415",
+                    "surface-tint": "#b4c5ff",
+                    "inverse-on-surface": "#2d3133",
+                    "surface-bright": "#363a3b",
+                    "on-background": "#e0e3e5",
+                    "surface-dim": "#101415",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-container-low": "#191c1e",
+                    "secondary-fixed": "#6ffbbe",
+                    "surface-container-lowest": "#0b0f10",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "tertiary-fixed": "#ffddb8",
+                    "on-error": "#690005",
+                    "tertiary-container": "#996100",
+                    "on-secondary-fixed": "#002113",
+                    "on-secondary": "#003824",
+                    "primary-container": "#2563eb",
+                    "on-secondary-fixed-variant": "#005236",
+                    "outline-variant": "#434655",
+                    "inverse-primary": "#0053db",
+                    "on-tertiary-container": "#ffeedd",
+                    "surface-container-high": "#272a2c",
+                    "error": "#ffb4ab",
+                    "secondary-container": "#00a572",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "on-primary-container": "#eeefff",
+                    "surface-container-highest": "#323537",
+                    "on-surface-variant": "#c3c6d7",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-error-container": "#ffdad6",
+                    "surface-variant": "#323537",
+                    "secondary": "#4edea3",
+                    "surface": "#101415",
+                    "on-tertiary": "#472a00",
+                    "inverse-surface": "#e0e3e5",
+                    "primary": "#b4c5ff",
+                    "on-secondary-container": "#00311f",
+                    "on-primary": "#002a78",
+                    "tertiary": "#ffb95f",
+                    "on-primary-fixed": "#00174b",
+                    "surface-container": "#1d2022",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "secondary-fixed-dim": "#4edea3",
+                    "error-container": "#93000a",
+                    "outline": "#8d90a0",
+                    "on-surface": "#e0e3e5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            backdrop-filter: blur(16px);
+            background: rgba(25, 28, 30, 0.8);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #323537; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-primary/30 min-h-screen overflow-hidden">
+<!-- SideNavBar Anchor -->
+<aside class="fixed left-0 top-0 h-full w-64 z-40 bg-[#101415] flex flex-col p-4 font-['Plus_Jakarta_Sans'] font-medium text-sm">
+<div class="bg-[#191c1e] ml-2 my-2 rounded-3xl flex flex-col h-full p-4">
+<!-- Header -->
+<div class="flex items-center gap-3 mb-10 px-2">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#b4c5ff] to-[#2563eb] flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-xl">electric_bike</span>
+</div>
+<div>
+<h2 class="text-lg font-extrabold text-white leading-none">Transit Admin</h2>
+<p class="text-[10px] text-slate-500 tracking-widest uppercase mt-1">Regional Hub 04</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-3 text-slate-500 py-3 px-4 hover:text-slate-300 hover:bg-white/5 transition-all duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-3 bg-gradient-to-r from-[#2563eb]/20 to-transparent text-blue-400 border-l-4 border-blue-500 py-3 px-4 transition-all duration-300 translate-x-1" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span>Live Map</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 py-3 px-4 hover:text-slate-300 hover:bg-white/5 transition-all duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">school</span>
+<span>Student Registry</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 py-3 px-4 hover:text-slate-300 hover:bg-white/5 transition-all duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">directions_bus</span>
+<span>Fleet Manager</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 py-3 px-4 hover:text-slate-300 hover:bg-white/5 transition-all duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">schedule</span>
+<span>Route Schedules</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 py-3 px-4 hover:text-slate-300 hover:bg-white/5 transition-all duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined">insert_chart</span>
+<span>Analytics</span>
+</a>
+</nav>
+<!-- CTA -->
+<div class="mt-6 mb-8 px-2">
+<button class="w-full bg-gradient-to-br from-[#b4c5ff] to-[#2563eb] text-on-primary py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-lg shadow-blue-900/20">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>New Dispatch</span>
+</button>
+</div>
+<!-- Footer Links -->
+<div class="pt-6 border-t border-white/5 space-y-1">
+<a class="flex items-center gap-3 text-slate-500 py-3 px-4 hover:text-slate-300 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 text-slate-500 py-3 px-4 hover:text-slate-300 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 h-screen flex relative">
+<!-- Dashboard Left Column -->
+<section class="w-[420px] h-full flex flex-col p-6 space-y-6 overflow-y-auto z-10 bg-background/50 backdrop-blur-md">
+<!-- Top Bar Branding -->
+<header class="flex justify-between items-center mb-2">
+<h1 class="text-2xl font-headline font-extrabold tracking-tight text-white">Live Monitoring</h1>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-xl">tune</span>
+</button>
+</div>
+</header>
+<!-- Selected Shuttle Card -->
+<div class="bg-surface-container-low rounded-lg p-6 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[60px] -mr-16 -mt-16"></div>
+<div class="flex justify-between items-start mb-6 relative z-10">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-xs font-label font-bold text-secondary tracking-widest uppercase">In Transit</span>
+</div>
+<h2 class="text-xl font-headline font-bold text-white">Shuttle Alpha-09</h2>
+<p class="text-sm text-on-surface-variant">North Campus Route</p>
+</div>
+<div class="bg-surface-container-high px-3 py-1.5 rounded-full">
+<span class="text-sm font-bold text-primary">#SH-4822</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 mb-6 relative z-10">
+<div class="bg-surface-container-high p-4 rounded-md">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">ETA at Stop 4</p>
+<p class="text-2xl font-headline font-extrabold text-white">4.5 <span class="text-sm font-normal text-on-surface-variant">min</span></p>
+</div>
+<div class="bg-surface-container-high p-4 rounded-md">
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider mb-1">Current Speed</p>
+<p class="text-2xl font-headline font-extrabold text-white">42 <span class="text-sm font-normal text-on-surface-variant">km/h</span></p>
+</div>
+</div>
+<div class="flex items-center gap-4 pt-6 border-t border-white/5 relative z-10">
+<img class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Professional driver portrait in uniform, clean studio lighting, friendly expression, high-end corporate photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3FuPPBuZe5y7FMrPAx0hi9ouHcibDHUMV_oLIEheJdKcBJGObVa7jkmPqHsUQ30Z_TYF45uTdsxHINiUiMPEMApOdWJuast5pxwRlhvkU4HaIefpKwOweGax5lIOqFbYAUz3qFCp8uNXQ3L3CvaIDARa_uDqxh2M48hAZJcOhJnNNqmxWzbOjgtZPDmHs7I4krHrGekuTTUeJlE5vc0UkUwaktZFVy4QsJF_sAU3G2mNR4LHM5e3edTYAg1A4CFyOwdlIxsF1zE3X"/>
+<div class="flex-grow">
+<p class="text-sm font-bold text-white">Marcus Richardson</p>
+<p class="text-xs text-on-surface-variant">Fleet Captain • 4.9★</p>
+</div>
+<button class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:scale-105 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">call</span>
+</button>
+</div>
+</div>
+<!-- Route Progress -->
+<div class="bg-surface-container-low rounded-lg p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-sm font-bold text-white uppercase tracking-wider">Active Segments</h3>
+<span class="text-xs text-primary font-bold">4 stops left</span>
+</div>
+<div class="space-y-6 relative">
+<!-- Line -->
+<div class="absolute left-[11px] top-2 bottom-2 w-1 bg-surface-variant"></div>
+<div class="absolute left-[11px] top-2 h-1/2 w-1 bg-gradient-to-b from-primary to-secondary"></div>
+<div class="flex items-start gap-4 relative">
+<div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center z-10 ring-4 ring-background">
+<span class="material-symbols-outlined text-[14px] text-on-primary" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="flex-grow pb-1">
+<div class="flex justify-between items-start">
+<p class="text-sm font-bold text-white">Main Library Entrance</p>
+<p class="text-[10px] text-on-surface-variant">10:42 AM</p>
+</div>
+<p class="text-xs text-on-surface-variant">Departure complete</p>
+</div>
+</div>
+<div class="flex items-start gap-4 relative">
+<div class="w-6 h-6 rounded-full bg-background border-2 border-primary flex items-center justify-center z-10 ring-4 ring-background">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+</div>
+<div class="flex-grow pb-1">
+<div class="flex justify-between items-start">
+<p class="text-sm font-bold text-white">Engineering Block C</p>
+<p class="text-[10px] text-secondary font-bold">ARRIVING</p>
+</div>
+<p class="text-xs text-on-surface-variant">0.4 km away</p>
+</div>
+</div>
+<div class="flex items-start gap-4 relative opacity-40">
+<div class="w-6 h-6 rounded-full bg-surface-variant z-10 ring-4 ring-background"></div>
+<div class="flex-grow">
+<div class="flex justify-between items-start">
+<p class="text-sm font-bold text-white">Central Dining Hall</p>
+<p class="text-[10px] text-on-surface-variant">11:05 AM</p>
+</div>
+<p class="text-xs text-on-surface-variant">Next scheduled</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity -->
+<div class="space-y-4">
+<h3 class="text-sm font-bold text-white uppercase tracking-wider px-2">Recent Logs</h3>
+<div class="space-y-3">
+<div class="bg-surface-container-lowest p-4 rounded-md flex gap-4 items-center">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<div>
+<p class="text-sm font-medium text-white">12 students boarded</p>
+<p class="text-[10px] text-on-surface-variant">Shuttle Beta-02 • 4 mins ago</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-md flex gap-4 items-center">
+<div class="w-10 h-10 rounded-lg bg-error-container/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined">warning</span>
+</div>
+<div>
+<p class="text-sm font-medium text-white">Route delay reported</p>
+<p class="text-[10px] text-on-surface-variant">West Perimeter • 12 mins ago</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Map Section -->
+<section class="flex-grow h-full relative">
+<!-- Mock Map Background -->
+<div class="absolute inset-0 bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover opacity-60" data-alt="Dark stylized vector map of a large university campus with glowing blue and green transit routes, minimalist aesthetic" data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIZM9jw_aV05fCEU9QFf60Q5g290AHyQh5cuqbC1o-nkM2Q8-Tbv78u2IlhAe5l2oCZ42CONbD9iq79vIZ-ZWCj-rCYdoUYqFl6TRrbmJjvYOXCH9PXYhPeHRbZKzJObiVjPbougYxS_1bOqkbbPL_oWEdWSnxZ2K2e208PVYHh1JPZkTo_ucI0N_prXdGnDJEGHZiWJtJzxfmk461cDdLFPtY53tGhiX913I8tKNLf85iuGYztMaREeS-PoOIr1UteLqhrRAxJ1l_"/>
+<!-- Map UI Elements: Animated Shuttle Markers -->
+<div class="absolute top-1/3 left-1/4 w-8 h-8 flex items-center justify-center">
+<div class="absolute inset-0 bg-primary/20 rounded-full animate-ping"></div>
+<div class="w-4 h-4 bg-primary rounded-full border-2 border-white shadow-lg shadow-primary/50 relative z-10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-on-primary" style="font-variation-settings: 'FILL' 1;">directions_bus</span>
+</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-background/80 backdrop-blur-md px-2 py-0.5 rounded-md border border-white/10">
+<span class="text-[10px] font-bold text-white">Alpha-09</span>
+</div>
+</div>
+<div class="absolute bottom-1/4 right-1/3 w-8 h-8 flex items-center justify-center">
+<div class="w-4 h-4 bg-secondary rounded-full border-2 border-white shadow-lg shadow-secondary/50 relative z-10 flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-on-secondary" style="font-variation-settings: 'FILL' 1;">directions_bus</span>
+</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-background/80 backdrop-blur-md px-2 py-0.5 rounded-md border border-white/10">
+<span class="text-[10px] font-bold text-white">Gamma-04</span>
+</div>
+</div>
+<!-- Stop Markers -->
+<div class="absolute top-1/2 left-1/2 w-4 h-4 bg-white rounded-full border-2 border-surface-dim shadow-xl"></div>
+<div class="absolute top-1/4 right-1/4 w-4 h-4 bg-white rounded-full border-2 border-surface-dim shadow-xl"></div>
+</div>
+<!-- Map Controls Overlay -->
+<div class="absolute bottom-10 right-10 flex flex-col gap-3">
+<button class="w-12 h-12 bg-surface-container-high rounded-xl flex items-center justify-center text-white hover:bg-surface-bright transition-colors shadow-2xl">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-12 h-12 bg-surface-container-high rounded-xl flex items-center justify-center text-white hover:bg-surface-bright transition-colors shadow-2xl">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<button class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-on-primary hover:scale-105 active:scale-95 transition-all shadow-2xl mt-4">
+<span class="material-symbols-outlined">my_location</span>
+</button>
+</div>
+<!-- Map Legend/Filter Glass Card -->
+<div class="absolute top-6 right-6 glass-panel p-4 rounded-lg flex gap-4 border border-white/5 shadow-2xl">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-xs font-bold text-white">Active</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="text-xs font-bold text-white">Scheduled</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-surface-variant"></div>
+<span class="text-xs font-bold text-white">Maintenance</span>
+</div>
+<div class="w-px h-4 bg-white/10"></div>
+<button class="flex items-center gap-1 text-xs text-primary font-bold">
+<span class="material-symbols-outlined text-sm">layers</span>
+<span>Layers</span>
+</button>
+</div>
+<!-- Floating Search/Command Bar -->
+<div class="absolute top-6 left-6 w-80 glass-panel flex items-center px-4 py-2.5 rounded-full border border-white/5 shadow-2xl">
+<span class="material-symbols-outlined text-on-surface-variant mr-3">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm text-white placeholder-on-surface-variant w-full" placeholder="Search shuttle, stop or student..." type="text"/>
+<kbd class="bg-surface-container-highest px-1.5 py-0.5 rounded text-[10px] font-bold text-on-surface-variant">⌘K</kbd>
+</div>
+</section>
+</main>
+</body></html>

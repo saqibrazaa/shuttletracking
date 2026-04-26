@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kinetic Fleet Admin Dashboard</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed": "#2a1700",
+                    "on-secondary-container": "#00311f",
+                    "surface-bright": "#363a3b",
+                    "outline-variant": "#434655",
+                    "inverse-on-surface": "#2d3133",
+                    "primary-fixed": "#dbe1ff",
+                    "surface-variant": "#323537",
+                    "primary": "#b4c5ff",
+                    "on-error-container": "#ffdad6",
+                    "surface": "#101415",
+                    "on-surface-variant": "#c3c6d7",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-primary-fixed": "#00174b",
+                    "on-surface": "#e0e3e5",
+                    "secondary-fixed-dim": "#4edea3",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-secondary-fixed": "#002113",
+                    "surface-tint": "#b4c5ff",
+                    "outline": "#8d90a0",
+                    "on-primary": "#002a78",
+                    "on-secondary-fixed-variant": "#005236",
+                    "background": "#101415",
+                    "surface-container-highest": "#323537",
+                    "on-background": "#e0e3e5",
+                    "inverse-surface": "#e0e3e5",
+                    "on-tertiary-fixed-variant": "#653e00",
+                    "tertiary-fixed": "#ffddb8",
+                    "secondary-container": "#00a572",
+                    "primary-container": "#2563eb",
+                    "on-error": "#690005",
+                    "on-secondary": "#003824",
+                    "error": "#ffb4ab",
+                    "tertiary": "#ffb95f",
+                    "tertiary-fixed-dim": "#ffb95f",
+                    "surface-container-lowest": "#0b0f10",
+                    "surface-container": "#1d2022",
+                    "on-tertiary-container": "#ffeedd",
+                    "inverse-primary": "#0053db",
+                    "secondary": "#4edea3",
+                    "surface-container-high": "#272a2c",
+                    "on-primary-container": "#eeefff",
+                    "surface-container-low": "#191c1e",
+                    "tertiary-container": "#996100",
+                    "secondary-fixed": "#6ffbbe",
+                    "surface-dim": "#101415",
+                    "on-tertiary": "#472a00",
+                    "error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Plus Jakarta Sans"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-panel {
+        background: rgba(43, 46, 53, 0.4);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+      .bg-gradient-primary {
+        background: linear-gradient(135deg, #b4c5ff 0%, #2563eb 100%);
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar (Authority: JSON & Design System) -->
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-[#191c1e] flex flex-col py-8 px-4 space-y-2 z-50 transition-all duration-300 ease-in-out">
+<div class="px-4 mb-8">
+<h1 class="font-['Plus_Jakarta_Sans'] font-extrabold text-blue-500 text-2xl tracking-tighter">Kinetic Admin</h1>
+<p class="text-slate-400 text-xs font-medium uppercase tracking-widest mt-1">Transit Systems</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Active Tab: Overview -->
+<a class="flex items-center gap-3 px-4 py-3 bg-blue-600/10 text-blue-400 rounded-full font-['Inter'] text-sm font-medium transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-[#272a2c] hover:text-white rounded-full font-['Inter'] text-sm font-medium transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">directions_bus</span>
+<span>Fleet</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-[#272a2c] hover:text-white rounded-full font-['Inter'] text-sm font-medium transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">route</span>
+<span>Routes</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-[#272a2c] hover:text-white rounded-full font-['Inter'] text-sm font-medium transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">badge</span>
+<span>Drivers</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-[#272a2c] hover:text-white rounded-full font-['Inter'] text-sm font-medium transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-white/5 space-y-1">
+<button class="w-full mb-4 bg-gradient-primary text-on-primary font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>New Dispatch</span>
+</button>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-[#272a2c] hover:text-white rounded-full font-['Inter'] text-sm font-medium transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:bg-[#272a2c] hover:text-white rounded-full font-['Inter'] text-sm font-medium transition-all duration-300 ease-in-out" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span>Support</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<main class="md:pl-64 min-h-screen">
+<!-- TopNavBar (Authority: JSON & Design System) -->
+<header class="w-full h-16 sticky top-0 z-40 bg-[#101415]/80 backdrop-blur-lg flex justify-between items-center px-6">
+<div class="flex items-center gap-6">
+<div class="md:hidden">
+<span class="material-symbols-outlined text-on-surface">menu</span>
+</div>
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-1 focus:ring-primary/30 transition-all" placeholder="Search fleet or routes..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-400 hover:bg-white/5 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-400 hover:bg-white/5 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined">apps</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden bg-surface-container-high ml-2 border border-white/10">
+<img alt="Administrator Avatar" class="w-full h-full object-cover" data-alt="professional male executive portrait with clean lighting and blurred office background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmjvZaGmsWqQ7LFEg7-SsRB3q66aiEh8LGoBRGpJHX5jlW3fB-n5ekfsMxfBsryp-sgDWk-aNWskFJZCJE09Sm9mS-JF7ubbbVjUcHe6gSGCXpIzGpXHYXhQeMFcLDufas5T3hyn87Lyfvs1-3_fQ2JAC7IEenBxvuy07bB-N8qcb-BPlLngTC-8I3--QRBesPurdNASLzYhUbODPlzd6vHMFsTIN_b9jqyXWUvdwAGsJVbLvUyoj74ar_68Lz9TJlnIwLiDIU4mZt"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="p-6 lg:p-10 space-y-10">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline text-4xl font-extrabold tracking-tight text-on-surface">System Overview</h2>
+<p class="text-on-surface-variant mt-2 font-medium">Real-time performance metrics for Kinetic Fluidity.</p>
+</div>
+<div class="flex items-center gap-2 bg-secondary-container/20 text-secondary px-4 py-2 rounded-full text-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                    Live Data Active
+                </div>
+</div>
+<!-- Metric Cards: Bento Grid Style -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Total Active Shuttles -->
+<div class="bg-surface-container-low p-6 rounded-lg relative overflow-hidden group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-3 bg-primary-container/20 text-primary rounded-xl">airport_shuttle</span>
+<span class="text-secondary text-xs font-bold">+12%</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">Total Active Shuttles</p>
+<h3 class="text-4xl font-extrabold mt-1">42</h3>
+<div class="mt-6 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[75%]"></div>
+</div>
+</div>
+<!-- Routes in Operation -->
+<div class="bg-surface-container-low p-6 rounded-lg relative overflow-hidden group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-3 bg-tertiary-container/20 text-tertiary rounded-xl">alt_route</span>
+<span class="text-on-surface-variant text-xs font-bold">Stable</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">Routes in Operation</p>
+<h3 class="text-4xl font-extrabold mt-1">18</h3>
+<div class="mt-6 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[90%]"></div>
+</div>
+</div>
+<!-- Avg. Wait Time -->
+<div class="bg-surface-container-low p-6 rounded-lg relative overflow-hidden group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-3 bg-secondary-container/20 text-secondary rounded-xl">schedule</span>
+<span class="text-secondary text-xs font-bold">-2m</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">Avg. Student Wait Time</p>
+<h3 class="text-4xl font-extrabold mt-1">4.5<span class="text-lg font-medium text-on-surface-variant ml-1">min</span></h3>
+<div class="mt-6 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[40%]"></div>
+</div>
+</div>
+<!-- System Health -->
+<div class="bg-surface-container-low p-6 rounded-lg relative overflow-hidden group hover:bg-surface-container-high transition-all duration-300">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined p-3 bg-blue-600/20 text-blue-400 rounded-xl">verified_user</span>
+<span class="text-secondary text-xs font-bold">Optimal</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">System Health %</p>
+<h3 class="text-4xl font-extrabold mt-1">99.2%</h3>
+<div class="mt-6 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-blue-500 w-[99%]"></div>
+</div>
+</div>
+</div>
+<!-- Main Interactive Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Live Fleet Status Table (Left/Center) -->
+<div class="lg:col-span-2 space-y-6">
+<div class="flex justify-between items-center px-2">
+<h4 class="text-xl font-bold">Live Fleet Status</h4>
+<button class="text-primary text-sm font-bold flex items-center gap-1 hover:underline">
+                            View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="bg-surface-container-low rounded-lg overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high/50 text-on-surface-variant text-xs uppercase tracking-widest">
+<th class="px-6 py-4 font-bold">Shuttle ID</th>
+<th class="px-6 py-4 font-bold">Driver</th>
+<th class="px-6 py-4 font-bold">Route</th>
+<th class="px-6 py-4 font-bold">Energy</th>
+<th class="px-6 py-4 font-bold">Status</th>
+</tr>
+</thead>
+<tbody class="text-sm divide-y divide-white/5">
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-bold text-primary">KNT-082</td>
+<td class="px-6 py-4 text-on-surface">Marcus Chen</td>
+<td class="px-6 py-4 text-on-surface-variant">North Campus Loop</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[88%]"></div>
+</div>
+<span class="text-xs">88%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-secondary-container/10 text-secondary rounded-full text-xs font-bold uppercase tracking-tighter">On Time</span>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-bold text-primary">KNT-041</td>
+<td class="px-6 py-4 text-on-surface">Sarah Jenkins</td>
+<td class="px-6 py-4 text-on-surface-variant">Downtown Express</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error w-[12%]"></div>
+</div>
+<span class="text-xs">12%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-tertiary-container/10 text-tertiary rounded-full text-xs font-bold uppercase tracking-tighter">Charging</span>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-bold text-primary">KNT-109</td>
+<td class="px-6 py-4 text-on-surface">Alex Rivera</td>
+<td class="px-6 py-4 text-on-surface-variant">South Quad Shuttle</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[62%]"></div>
+</div>
+<span class="text-xs">62%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-error-container/10 text-error rounded-full text-xs font-bold uppercase tracking-tighter">Delayed</span>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors">
+<td class="px-6 py-4 font-bold text-primary">KNT-015</td>
+<td class="px-6 py-4 text-on-surface">Julian Lowe</td>
+<td class="px-6 py-4 text-on-surface-variant">Stadium Direct</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[94%]"></div>
+</div>
+<span class="text-xs">94%</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-3 py-1 bg-secondary-container/10 text-secondary rounded-full text-xs font-bold uppercase tracking-tighter">On Time</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Sidebar Widgets -->
+<div class="space-y-8">
+<!-- Global Fleet Map Widget -->
+<div class="bg-surface-container-low rounded-lg overflow-hidden flex flex-col h-[320px]">
+<div class="p-4 flex items-center justify-between">
+<h4 class="font-bold text-sm">Global Fleet Map</h4>
+<span class="material-symbols-outlined text-on-surface-variant text-lg">fullscreen</span>
+</div>
+<div class="flex-1 relative bg-surface-container-highest overflow-hidden">
+<!-- Placeholder for Map -->
+<img class="w-full h-full object-cover opacity-50 grayscale" data-alt="abstract dark topographical map of a metropolitan area with glowing blue transit lines and glowing pulse points" data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBqguE2lzFHiQm5E7GJPbHIdeTlemwDyT8d4syMBOlHSEHZoi4QL9eWA4QlO0I7T0H3-lsYV4Na71OetH1QYnx0_5QiG37ATJPoyjrn_M-h0mWYoidbtMXhK2YR010itRklAeRpzW9_JuMCEy8bacivgQ99wSAATGuXHXClCVlieEKy7Szdd30iW8lDCJGvSGdJ5a0zz9ATLAmrIf-dEa4XFfuu2NydRSmJiQEfK1ZFtEALzat2GUAe2p7wYFy0iSgzKOQNo5DjgVz"/>
+<!-- Simulated Pulse Points -->
+<div class="absolute top-[30%] left-[45%] w-3 h-3 bg-primary rounded-full animate-pulse shadow-[0_0_15px_rgba(37,99,235,1)]"></div>
+<div class="absolute top-[60%] left-[20%] w-3 h-3 bg-secondary rounded-full animate-pulse shadow-[0_0_15px_rgba(16,185,129,1)]"></div>
+<div class="absolute top-[45%] left-[75%] w-3 h-3 bg-primary rounded-full animate-pulse shadow-[0_0_15px_rgba(37,99,235,1)]"></div>
+<div class="absolute bottom-4 left-4 glass-panel px-3 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                                Active Movement
+                            </div>
+</div>
+</div>
+<!-- Recent Alerts Panel -->
+<div class="bg-surface-container-low p-6 rounded-lg space-y-4">
+<div class="flex items-center justify-between">
+<h4 class="font-bold text-sm">Recent Alerts</h4>
+<span class="bg-error text-on-error px-2 py-0.5 rounded text-[10px] font-bold">3 NEW</span>
+</div>
+<div class="space-y-4">
+<!-- Alert 1 -->
+<div class="flex gap-4 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer">
+<div class="p-2 h-fit bg-error-container/20 text-error rounded-lg">
+<span class="material-symbols-outlined text-sm">warning</span>
+</div>
+<div>
+<p class="text-sm font-bold">KNT-041: Low Battery</p>
+<p class="text-xs text-on-surface-variant mt-1">Vehicle below 15% threshold. Rerouting to nearest hub.</p>
+<p class="text-[10px] text-slate-500 mt-2 uppercase font-bold">2 mins ago</p>
+</div>
+</div>
+<!-- Alert 2 -->
+<div class="flex gap-4 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer">
+<div class="p-2 h-fit bg-tertiary-container/20 text-tertiary rounded-lg">
+<span class="material-symbols-outlined text-sm">construction</span>
+</div>
+<div>
+<p class="text-sm font-bold">Main St. Blockage</p>
+<p class="text-xs text-on-surface-variant mt-1">Routes 4, 8 &amp; 12 rerouted due to emergency repairs.</p>
+<p class="text-[10px] text-slate-500 mt-2 uppercase font-bold">14 mins ago</p>
+</div>
+</div>
+<!-- Alert 3 -->
+<div class="flex gap-4 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer">
+<div class="p-2 h-fit bg-secondary-container/20 text-secondary rounded-lg">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+</div>
+<div>
+<p class="text-sm font-bold">Dispatch Complete</p>
+<p class="text-xs text-on-surface-variant mt-1">KNT-092 has successfully completed its shift cycle.</p>
+<p class="text-[10px] text-slate-500 mt-2 uppercase font-bold">1 hour ago</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Nav for Mobile (Shell Relevance Rule) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 glass-panel flex items-center justify-around px-4 z-50 border-t border-white/5">
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-bold">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">directions_bus</span>
+<span class="text-[10px] font-bold">Fleet</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="text-[10px] font-bold">Map</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="text-[10px] font-bold">Alerts</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+dist/
+build/
+.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.github/
+stitch_smart_shuttle_tracking_system.zip
