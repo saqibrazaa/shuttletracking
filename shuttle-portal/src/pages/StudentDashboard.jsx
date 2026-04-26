@@ -3,6 +3,8 @@ import Cropper from 'react-easy-crop';
 import { getCroppedImg } from '../utils/cropImage';
 import { useAuth } from '../context/AuthContext';
 import { useTracking } from '../context/TrackingContext';
+import API_BASE_URL from '../config';
+
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -64,7 +66,7 @@ export default function StudentDashboard() {
 
   const getProfileImageUrl = (path) => {
     if (!path) return null;
-    return `http://localhost:5000/${path.replace(/\\/g, '/')}`;
+    return `${API_BASE_URL}/${path.replace(/\\/g, '/')}`;
   };
 
   const handleUpdateSubmit = async (e) => {

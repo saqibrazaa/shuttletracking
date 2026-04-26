@@ -1,4 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import API_BASE_URL from '../config';
+
 
 const AuthContext = createContext();
 
@@ -16,7 +18,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -37,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const isFormData = userData instanceof FormData;
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: 'POST',
         headers: isFormData ? {} : { 'Content-Type': 'application/json' },
         body: isFormData ? userData : JSON.stringify(userData),
@@ -59,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log('Attempting to update profile for ID:', id);
       const isFormData = userData instanceof FormData;
-      const res = await fetch(`http://localhost:5000/api/auth/profile/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/profile/${id}`, {
         method: 'PUT',
         headers: isFormData ? {} : { 'Content-Type': 'application/json' },
         body: isFormData ? userData : JSON.stringify(userData),
@@ -76,7 +78,7 @@ export const AuthProvider = ({ children }) => {
       return { success: false, msg: data.msg || 'Update failed' };
     } catch (err) {
       console.error('Update Profile Fetch Error:', err);
-      return { success: false, msg: 'Network or Server Error. Please ensure backend is running at http://localhost:5000' };
+      return { success: false, msg: `Network or Server Error. Please ensure backend is running at ${API_BASE_URL}` };
     }
   };
 

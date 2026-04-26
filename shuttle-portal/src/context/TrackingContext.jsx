@@ -1,9 +1,12 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { io } from 'socket.io-client';
+import API_BASE_URL from '../config';
+
 
 const TrackingContext = createContext();
 
-const SOCKET_URL = 'http://localhost:5000'; // Backend URL
+const SOCKET_URL = API_BASE_URL; // Backend URL
+
 
 export const TrackingProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTracking } from '../context/TrackingContext';
+import API_BASE_URL from '../config';
+
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -33,7 +35,7 @@ export default function AdminDashboard() {
 
   const fetchUsers = async () => {
     try {
-        const res = await fetch('http://localhost:5000/api/auth/users');
+        const res = await fetch(`${API_BASE_URL}/api/auth/users`);
         const data = await res.json();
         setStudents(data.students || []);
         setDrivers(data.drivers || []);
@@ -46,7 +48,7 @@ export default function AdminDashboard() {
   const handleDeleteUser = async (id, name) => {
     if (window.confirm(`Are you absolutely sure you want to delete the account for ${name}? This action cannot be undone.`)) {
         try {
-            const res = await fetch(`http://localhost:5000/api/auth/users/${id}`, {
+            const res = await fetch(`${API_BASE_URL}/api/auth/users/${id}`, {
                 method: 'DELETE'
             });
             const data = await res.json();
@@ -72,7 +74,7 @@ export default function AdminDashboard() {
 
   const getProfileImageUrl = (path) => {
     if (!path) return null;
-    return `http://localhost:5000/${path.replace(/\\/g, '/')}`;
+    return `${API_BASE_URL}/${path.replace(/\\/g, '/')}`;
   };
 
   const filteredStudents = students.filter(s => 
