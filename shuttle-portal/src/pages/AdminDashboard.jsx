@@ -6,6 +6,10 @@ import API_BASE_URL from '../config';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import MapEnhancements from '../components/MapSearch';
+import LiveDriverMarkers from '../components/LiveDriverMarkers';
+
+
 
 // Fix for default marker icon issue in React-Leaflet/Vite
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -21,16 +25,24 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 export default function AdminDashboard() {
   const { logout } = useAuth();
-  const { shuttles } = useTracking();
-  const activeCount = shuttles.length;
+  const { shuttles, liveDrivers } = useTracking();
+  const activeCount = shuttles.length + liveDrivers.length;
+
   const [activeTab, setActiveTab] = useState('Overview');
   const [students, setStudents] = useState([]);
   const [drivers, setDrivers] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
 
+  // Vehicle states
+  const [vehicles, setVehicles] = useState([]);
+  const [isVehicleModalOpen, setIsVehicleModalOpen] = useState(false);
+  const [editingVehicle, setEditingVehicle] = useState(null);
+  const [vehicleForm, setVehicleForm] = useState({ shuttleId: '', driverName: '', route: '', status: 'Active' });
+
   useEffect(() => {
     fetchUsers();
+    fetchVehicles();
   }, []);
 
   const fetchUsers = async () => {
@@ -42,6 +54,46 @@ export default function AdminDashboard() {
         setLoading(false);
     } catch (err) {
         console.error('Error fetching users:', err);
+    }
+  };
+
+  const fetchVehicles = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/vehicles`);
+        const data = await res.json();
+        setVehicles(data);
+    } catch (err) {
+        console.error('Error fetching vehicles:', err);
+    }
+  };
+
+  const handleSaveVehicle = async (e) => {
+    e.preventDefault();
+    try {
+        const url = editingVehicle 
+            ? `${API_BASE_URL}/api/vehicles/${editingVehicle._id}` 
+            : `${API_BASE_URL}/api/vehicles`;
+        
+        const method = editingVehicle ? 'PUT' : 'POST';
+
+        const res = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(vehicleForm)
+        });
+
+        if (res.ok) {
+            fetchVehicles();
+            setIsVehicleModalOpen(false);
+            setEditingVehicle(null);
+            setVehicleForm({ shuttleId: '', driverName: '', route: '', status: 'Active' });
+        } else {
+            const data = await res.json();
+            alert(data.msg || 'Error saving vehicle');
+        }
+    } catch (err) {
+        console.error('Save vehicle error:', err);
+        alert('An error occurred while saving the vehicle.');
     }
   };
 
@@ -205,7 +257,13 @@ export default function AdminDashboard() {
               <h2 className="font-headline text-4xl font-extrabold tracking-tight text-on-surface">Fleet Management</h2>
               <p className="text-on-surface-variant mt-2 font-medium">Detailed roster of all monitored transit vehicles.</p>
           </div>
-          <button className="bg-primary text-on-primary px-4 py-2 flex items-center justify-center gap-2 rounded-xl font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-transform">
+          <button 
+              onClick={() => {
+                  setEditingVehicle(null);
+                  setVehicleForm({ shuttleId: '', driverName: '', route: '', status: 'Active' });
+                  setIsVehicleModalOpen(true);
+              }}
+              className="bg-primary text-on-primary px-4 py-2 flex items-center justify-center gap-2 rounded-xl font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-transform">
               <span className="material-symbols-outlined text-sm">add</span>
               Register Vehicle
           </button>
@@ -224,13 +282,13 @@ export default function AdminDashboard() {
                   </tr>
               </thead>
               <tbody className="text-sm divide-y divide-white/5">
-                  {shuttles.length > 0 ? shuttles.map(s => (
-                    <tr key={s.id} className="hover:bg-white/5 transition-colors group">
+                  {vehicles.length > 0 ? vehicles.map(s => (
+                    <tr key={s._id} className="hover:bg-white/5 transition-colors group">
                         <td className="px-6 py-4 font-bold text-primary flex items-center gap-2">
                            <span className="material-symbols-outlined text-sm text-surface-variant">directions_bus</span>
-                           {s.id.toUpperCase()}
+                           {s.shuttleId.toUpperCase()}
                         </td>
-                        <td className="px-6 py-4 text-on-surface">System Default</td>
+                        <td className="px-6 py-4 text-on-surface">{s.driverName}</td>
                         <td className="px-6 py-4 text-on-surface-variant font-medium">{s.route || "Unassigned"}</td>
                         <td className="px-6 py-4">
                             <div className="flex items-center gap-2">
@@ -247,7 +305,15 @@ export default function AdminDashboard() {
                         </td>
                         <td className="px-6 py-4 text-right">
                             <button className="text-on-surface-variant hover:text-primary transition-colors text-xs font-bold mr-3 opacity-0 group-hover:opacity-100">Ping</button>
-                            <button className="text-on-surface-variant hover:text-primary transition-colors text-xs font-bold opacity-0 group-hover:opacity-100">Config</button>
+                            <button 
+                                onClick={() => {
+                                    setEditingVehicle(s);
+                                    setVehicleForm({ shuttleId: s.shuttleId, driverName: s.driverName, route: s.route, status: s.status });
+                                    setIsVehicleModalOpen(true);
+                                }}
+                                className="text-on-surface-variant hover:text-primary transition-colors text-xs font-bold opacity-0 group-hover:opacity-100">
+                                Config
+                            </button>
                         </td>
                     </tr>
                   )) : (
@@ -383,6 +449,14 @@ export default function AdminDashboard() {
                           <TileLayer
                             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
                             attribution='&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EBP, and the GIS User Community'
+                            maxZoom={19}
+                          />
+                          {/* Landmark labels overlay */}
+                          <TileLayer
+                            url="https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png"
+                            attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
+                            maxZoom={20}
+                            opacity={0.7}
                           />
                           {shuttles.map(s => (
                               <Marker key={s.id} position={[s.lat, s.lng]}>
@@ -392,11 +466,26 @@ export default function AdminDashboard() {
                                   </Popup>
                               </Marker>
                           ))}
+                          {/* Search + current location */}
+                          <MapEnhancements />
+                          {/* Live driver GPS markers */}
+                          <LiveDriverMarkers />
                       </MapContainer>
-                      <div className="absolute bottom-4 left-4 z-[400] glass-panel px-3 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-white border border-white/10 shadow-xl backdrop-blur-md">
-                          <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
-                          Global Coverage Active
+
+
+                      <div className="absolute bottom-4 left-4 z-[400] flex flex-col gap-2">
+                          <div className="glass-panel px-3 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-white border border-white/10 shadow-xl backdrop-blur-md">
+                              <span className="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+                              Global Coverage Active
+                          </div>
+                          {liveDrivers.length > 0 && (
+                              <div className="glass-panel px-3 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 text-blue-400 border border-blue-500/30 shadow-xl backdrop-blur-md bg-blue-600/10">
+                                  <span style={{fontSize:'14px'}}>🚌</span>
+                                  {liveDrivers.length} Live Driver{liveDrivers.length > 1 ? 's' : ''} Broadcasting
+                              </div>
+                          )}
                       </div>
+
                   </div>
               </div>
           </div>
@@ -466,6 +555,92 @@ export default function AdminDashboard() {
               {activeTab === 'Fleet'    && renderFleetView()}
           </div>
       </main>
+
+      {/* Vehicle Registration / Edit Modal */}
+      {isVehicleModalOpen && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="bg-surface-container-low w-full max-w-md rounded-3xl p-8 shadow-2xl border border-white/10 relative">
+                <button 
+                    onClick={() => setIsVehicleModalOpen(false)}
+                    className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"
+                >
+                    <span className="material-symbols-outlined">close</span>
+                </button>
+                <h3 className="text-2xl font-extrabold text-white mb-2">
+                    {editingVehicle ? 'Update Vehicle' : 'Register Vehicle'}
+                </h3>
+                <p className="text-on-surface-variant text-sm mb-6">
+                    {editingVehicle ? 'Modify details for the selected transit node.' : 'Add a new vehicle node to the fleet network.'}
+                </p>
+
+                <form onSubmit={handleSaveVehicle} className="space-y-5">
+                    <div>
+                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Shuttle ID</label>
+                        <input 
+                            type="text" 
+                            required
+                            placeholder="e.g. alpha-05"
+                            value={vehicleForm.shuttleId}
+                            onChange={(e) => setVehicleForm({...vehicleForm, shuttleId: e.target.value})}
+                            className="w-full bg-surface-container-high border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Driver Name</label>
+                        <input 
+                            type="text" 
+                            required
+                            placeholder="Enter driver's name"
+                            value={vehicleForm.driverName}
+                            onChange={(e) => setVehicleForm({...vehicleForm, driverName: e.target.value})}
+                            className="w-full bg-surface-container-high border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Assigned Route</label>
+                        <input 
+                            type="text" 
+                            required
+                            placeholder="e.g. North Campus Route"
+                            value={vehicleForm.route}
+                            onChange={(e) => setVehicleForm({...vehicleForm, route: e.target.value})}
+                            className="w-full bg-surface-container-high border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                        />
+                    </div>
+                    {editingVehicle && (
+                        <div>
+                            <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Status</label>
+                            <select 
+                                value={vehicleForm.status}
+                                onChange={(e) => setVehicleForm({...vehicleForm, status: e.target.value})}
+                                className="w-full bg-surface-container-high border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                            >
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Maintenance">Maintenance</option>
+                                <option value="Delayed">Delayed</option>
+                            </select>
+                        </div>
+                    )}
+                    <div className="pt-4 flex gap-4">
+                        <button 
+                            type="button"
+                            onClick={() => setIsVehicleModalOpen(false)}
+                            className="flex-1 py-3 rounded-xl font-bold text-slate-300 bg-white/5 hover:bg-white/10 transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        <button 
+                            type="submit"
+                            className="flex-1 py-3 rounded-xl font-bold text-white bg-primary hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
+                        >
+                            {editingVehicle ? 'Save Changes' : 'Register'}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+      )}
     </div>
   );
 }

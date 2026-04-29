@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useTracking } from '../context/TrackingContext';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import MapEnhancements, { MapController } from '../components/MapSearch';
+
 
 // Fix for Leaflet default icon issues
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -18,16 +20,7 @@ let DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-// Custom Auto-Center Component
-function MapController({ center }) {
-    const map = useMap();
-    useEffect(() => {
-        if (center) {
-            map.flyTo(center, 15, { duration: 1.5 });
-        }
-    }, [center, map]);
-    return null;
-}
+
 
 export default function Tracking() {
   const { logout } = useAuth();
@@ -145,24 +138,44 @@ export default function Tracking() {
                     className="w-full h-full"
                     zoomControl={false}
                   >
-                      <TileLayer
-                        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-                        attribution='&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EBP, and the GIS User Community'
-                      />
-                      
-                      {selectedShuttleId && <MapController center={[selectedShuttle.lat, selectedShuttle.lng]} />}
+                       {/* Satellite imagery base layer */}
+                       <TileLayer
+                         url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                         attribution='&copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EBP, and the GIS User Community'
+                         maxZoom={19}
+                       />
+                       {/* Landmark labels overlay */}
+                       <TileLayer
+                         url="https://stamen-tiles-{s}.a.ssl.fastly.net/toner-hybrid/{z}/{x}/{y}{r}.png"
+                         attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>'
+                         subdomains="abcd"
+                         maxZoom={20}
+                         opacity={0.65}
+                       />
+                       {/* Fallback OSM labels layer for wider global coverage */}
+                       <TileLayer
+                         url="https://tiles.stadiamaps.com/tiles/stamen_toner_labels/{z}/{x}/{y}{r}.png"
+                         attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>'
+                         maxZoom={20}
+                         opacity={0.7}
+                       />
+                       
+                       {selectedShuttleId && <MapController center={[selectedShuttle.lat, selectedShuttle.lng]} />}
 
-                      {shuttles.map(s => (
-                          <Marker key={s.id} position={[s.lat, s.lng]}>
-                              <Popup className="custom-popup">
-                                  <div className="p-1">
-                                      <p className="font-bold text-sm">Shuttle Alpha-{s.id.slice(-2)}</p>
-                                      <p className="text-[10px] text-slate-600">Heading: {s.route}</p>
-                                  </div>
-                              </Popup>
-                          </Marker>
-                      ))}
-                  </MapContainer>
+                       {shuttles.map(s => (
+                           <Marker key={s.id} position={[s.lat, s.lng]}>
+                               <Popup className="custom-popup">
+                                   <div className="p-1">
+                                       <p className="font-bold text-sm">Shuttle Alpha-{s.id.slice(-2)}</p>
+                                       <p className="text-[10px] text-slate-600">Heading: {s.route}</p>
+                                   </div>
+                               </Popup>
+                           </Marker>
+                       ))}
+
+                       {/* Search bar, landmark search, current-location button */}
+                       <MapEnhancements />
+                   </MapContainer>
               </div>
 
               {/* Fixed Right Detail Panel - The "Show all things under this panel" part */}
